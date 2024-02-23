@@ -25,12 +25,12 @@
         <div class="d-flex align-content-center justify-space-between mt-4">
             <div class="d-flex gap-2">
 
-                @* <MudButton Variant="Variant.Filled"
-                           @onclick="Voltar"
-                           Color="Color.Tertiary"
+                <MudButton Variant="Variant.Filled"
+                           @onclick="Editar"
+                           Color="Color.Primary"
                            Class="ml-auto">
-                    Voltar
-                </MudButton> *@
+                    Salvar
+                </MudButton>
 
                 <MudButton Variant="Variant.Filled"
                            @onclick="Deletar"
@@ -38,6 +38,15 @@
                            Class="ml-auto">
                     Deletar
                 </MudButton>
+
+                <MudButton Variant="Variant.Filled"
+                           @onclick="Voltar"
+                           Color="Color.Info"
+                           Class="ml-auto">
+                    Voltar
+                </MudButton>
+
+
             </div>
         </div>
 
@@ -63,6 +72,13 @@
     {
         
         await artistasAPI.DeleteArtistaAsync(Artista!.Id);
+        navigationManager.NavigateTo("/Artistas");
+    }
+
+    private async Task Editar()
+    {
+        var requestEdit = new ArtistaRequestEdit(Artista!.Id, nome!, biografia!);
+        await artistasAPI.UpdateArtistaAsync(requestEdit);
         navigationManager.NavigateTo("/Artistas");
     }
 
