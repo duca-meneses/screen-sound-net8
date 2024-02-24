@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using ScreenSound.Banco;
-using ScreenSound.Menus;
-using ScreenSound.Modelos;
+﻿using ScreenSound.Menus;
+using ScreenSound.Shared.Dados.Banco;
+using ScreenSound.Shared.Modelos.Modelos;
 
 
 var context = new ScreenSoundContext();

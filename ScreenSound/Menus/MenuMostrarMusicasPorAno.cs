@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using ScreenSound.Banco;
-using ScreenSound.Modelos;
+﻿using ScreenSound.Shared.Dados.Banco;
+using ScreenSound.Shared.Modelos.Modelos;
 
 namespace ScreenSound.Menus;
 internal class MenuMostrarMusicasPorAno: Menu
