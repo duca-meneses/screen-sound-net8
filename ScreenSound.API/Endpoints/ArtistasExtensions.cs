@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ScreenSound.API.Reponses;
+using ScreenSound.API.Reponse;
 using ScreenSound.API.Requests;
-using ScreenSound.Banco;
-using ScreenSound.Modelos;
+using ScreenSound.Shared.Dados.Banco;
+using ScreenSound.Shared.Modelos.Modelos;
 
 namespace ScreenSound.API.Endpoints;
 
@@ -34,9 +34,22 @@ public static class ArtistasExtensions
             return Results.Ok(artista);
         });
 
-        app.MapPost("/Artistas", ([FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
+        app.MapPost("/Artistas", async ([FromServices] IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
         {
-            var artista = new Artista(artistaRequest.nome, artistaRequest.bio);
+            var nome = artistaRequest.nome.Trim();
+            var imagemArtista = DateTime.Now.ToString("ddMMyyyyhhss") + "." + nome + ".jpeg";
+
+            var path = Path.Combine(env.ContentRootPath,"wwwroot", "FotosPerfil", imagemArtista);
+
+            using MemoryStream ms = new MemoryStream(Convert.FromBase64String(artistaRequest.fotoPerfil!));
+            using FileStream fs = new(path, FileMode.Create);
+            await ms.CopyToAsync(fs);
+
+            var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
+            {
+                FotoPerfil = $"/FotosPerfil/{imagemArtista}"
+            };
+
             dal.Adicionar(artista);
             return Results.Ok();
         });
@@ -71,13 +84,13 @@ public static class ArtistasExtensions
 
     }
 
-    private static ICollection<ArtistaReponse> EntityListToResponse(IEnumerable<Artista> listaDeArtistas)
+    private static ICollection<ArtistaResponse> EntityListToResponse(IEnumerable<Artista> listaDeArtistas)
     {
         return listaDeArtistas.Select(a => EntityToResponse(a)).ToList();
     }
 
-    private static ArtistaReponse EntityToResponse(Artista artista)
+    private static ArtistaResponse EntityToResponse(Artista artista)
     {
-        return new ArtistaReponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil);
+        return new ArtistaResponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil);
     }
 }

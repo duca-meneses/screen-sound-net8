@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ScreenSound.API.Endpoints;
-using ScreenSound.Banco;
-using ScreenSound.Modelos;
+using ScreenSound.Shared.Dados.Banco;
 using ScreenSound.Shared.Modelos.Modelos;
 using System.Data.SqlTypes;
 using System.Text.Json.Serialization;
@@ -34,6 +33,8 @@ app.UseCors(options =>
     .AllowAnyMethod()
     .AllowAnyHeader();
 });
+
+app.UseStaticFiles();
 
 app.AddEndpointsArtistas();
 app.AddEndpointsMusicas();
