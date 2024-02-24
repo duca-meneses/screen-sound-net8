@@ -1,6 +1,4 @@
-﻿using ScreenSound.Modelos;
-
-namespace ScreenSound.Shared.Modelos.Modelos;
+﻿namespace ScreenSound.Shared.Modelos.Modelos;
 public class Genero
 {
     public int Id { get; set; }

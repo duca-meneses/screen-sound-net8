@@ -1,7 +1,4 @@
-﻿using ScreenSound.Modelos;
-using System.Threading.Channels;
-
-namespace ScreenSound.Banco;
+﻿namespace ScreenSound.Shared.Dados.Banco;
 public class DAL<T> where T : class
 {
     private readonly ScreenSoundContext _context;
