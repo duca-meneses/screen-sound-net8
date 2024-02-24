@@ -22,32 +22,25 @@
                       Required="true"
                       RequiredError="Campo Obrigatório" />
 
-        <div class="d-flex align-content-center justify-space-between mt-4">
-            <div class="d-flex gap-2">
-
-                <MudButton Variant="Variant.Filled"
-                           @onclick="Editar"
-                           Color="Color.Primary"
-                           Class="ml-auto">
-                    Salvar
-                </MudButton>
-
-                <MudButton Variant="Variant.Filled"
-                           @onclick="Deletar"
-                           Color="Color.Secondary"
-                           Class="ml-auto">
-                    Deletar
-                </MudButton>
-
-                <MudButton Variant="Variant.Filled"
-                           @onclick="Voltar"
-                           Color="Color.Info"
-                           Class="ml-auto">
-                    Voltar
-                </MudButton>
-
-
-            </div>
+        <div class="d-flex align-center justify-space-between mt-4">
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Class="ml-auto"
+                       @onclick="Editar">
+                Salvar
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       @onclick="Deletar"
+                       Color="Color.Secondary"
+                       Class="ml-3">
+                Deletar
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Info"
+                       Class="ml-3"
+                       @onclick="Voltar">
+                Voltar
+            </MudButton>
         </div>
 
     </MudForm>
@@ -59,7 +52,7 @@
     private string? biografia;
     [Parameter]
     public string? NomeArtista { get; set; }
-    public ArtistaReponse? Artista { get; set; }
+    public ArtistaResponse? Artista { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,7 +70,7 @@
 
     private async Task Editar()
     {
-        var requestEdit = new ArtistaRequestEdit(Artista!.Id, nome!, biografia!);
+        var requestEdit = new ArtistaRequestEdit(Artista!.Id, nome!, biografia!, Artista!.FotoPerfil);
         await artistasAPI.UpdateArtistaAsync(requestEdit);
         navigationManager.NavigateTo("/Artistas");
     }

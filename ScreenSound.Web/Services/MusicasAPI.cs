@@ -1,4 +1,4 @@
-﻿using ScreenSound.Web.Reponses;
+﻿using ScreenSound.Web.Reponse;
 using System.Net.Http.Json;
 
 namespace ScreenSound.Web.Services;

@@ -1,4 +1,4 @@
-﻿using ScreenSound.Web.Reponses;
+﻿using ScreenSound.Web.Reponse;
 using ScreenSound.Web.Requests;
 using System.Net.Http.Json;
 
@@ -13,9 +13,9 @@ public class ArtistasAPI
         _httpClient = factory.CreateClient("API");
     }
 
-    public async Task<ICollection<ArtistaReponse>?> GetArtistasAsync()
+    public async Task<ICollection<ArtistaResponse>?> GetArtistasAsync()
     {
-        return await _httpClient.GetFromJsonAsync<ICollection<ArtistaReponse>>("artistas");
+        return await _httpClient.GetFromJsonAsync<ICollection<ArtistaResponse>>("artistas");
     }
 
     public async Task AddArtistaAsync(ArtistaRequest artista)
@@ -28,9 +28,9 @@ public class ArtistasAPI
         await _httpClient.DeleteAsync($"artistas/{id}");    
     }
 
-    public async Task<ArtistaReponse?> GetArtistaPorNomeAsync(string nome)
+    public async Task<ArtistaResponse?> GetArtistaPorNomeAsync(string nome)
     {
-        return await _httpClient.GetFromJsonAsync<ArtistaReponse>($"artistas/{nome}");
+        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"artistas/{nome}");
     }
 
     public async Task UpdateArtistaAsync(ArtistaRequestEdit artista)
