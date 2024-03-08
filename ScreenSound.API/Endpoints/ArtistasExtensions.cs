@@ -10,9 +10,11 @@ public static class ArtistasExtensions
 {
     public static void AddEndpointsArtistas(this WebApplication app)
     {
+        var groupBuilder = app.MapGroup("artistas")
+            .RequireAuthorization().WithTags("Artistas");
 
         #region Endpoint Artistas
-        app.MapGet("/Artistas", ([FromServices] DAL<Artista> dal) =>
+        groupBuilder.MapGet("", ([FromServices] DAL<Artista> dal) =>
         {
             var listaDeArtista = dal.Listar();
             if (listaDeArtista is null)
@@ -22,9 +24,9 @@ public static class ArtistasExtensions
             var listaDeArtistaResponse = EntityListToResponse(listaDeArtista);
             return Results.Ok(listaDeArtistaResponse);
 
-        });
+        }).RequireAuthorization();
 
-        app.MapGet("/Artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
+        groupBuilder.MapGet("{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
         {
             var artista = dal.RecuperarPor(a => a.Nome.ToUpper().Equals(nome.ToUpper()));
             if (artista is null)
@@ -34,7 +36,7 @@ public static class ArtistasExtensions
             return Results.Ok(artista);
         });
 
-        app.MapPost("/Artistas", async ([FromServices] IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
+        groupBuilder.MapPost("", async ([FromServices] IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
         {
             var nome = artistaRequest.nome.Trim();
             var imagemArtista = DateTime.Now.ToString("ddMMyyyyhhss") + "." + nome + ".jpeg";
@@ -54,7 +56,7 @@ public static class ArtistasExtensions
             return Results.Ok();
         });
 
-        app.MapDelete("/Artistas/{id}", ([FromServices] DAL<Artista> dal, int id) =>
+        groupBuilder.MapDelete("{id}", ([FromServices] DAL<Artista> dal, int id) =>
         {
             var artista = dal.RecuperarPor(a => a.Id == id);
             if (artista is null)
@@ -65,7 +67,7 @@ public static class ArtistasExtensions
             return Results.NoContent();
         });
 
-        app.MapPut("/Artistas", ([FromServices] DAL<Artista> dal, 
+        groupBuilder.MapPut("", ([FromServices] DAL<Artista> dal, 
             [FromBody] ArtistaRequestEdit artistaRequestEdit) =>
         {
         
