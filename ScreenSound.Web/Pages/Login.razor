@@ -40,9 +40,17 @@
     private string? email;
     private string? senha;
 
+    [SupplyParameterFromQuery]
+    public string? ReturnUrl { get; set; }
+
     private async Task FazerLogin()
     {
-        await AuthAPI.LoginAsync(email, senha);
+        var resposta = await AuthAPI.LoginAsync(email, senha);
+        if (resposta.Sucesso)
+        {
+            if (ReturnUrl is not null)
+            Navigation.NavigateTo(ReturnUrl);
+        }
     }
 
 }
